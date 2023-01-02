@@ -3,10 +3,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/credentials"
 
 export default {
-  data() {
-    return {
-    }
-  },
   methods: {
     signUserOut() {
       signOut(auth)
@@ -14,8 +10,8 @@ export default {
       .catch((error) => {
         console.log(error)
       });
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -2,6 +2,7 @@ export const TYPES = ["Array", "Boolean", "Datetime", "Map", "String", "Number",
 
 export const REQUIRED = "req"
 export const OPTIONAL = "opt"
+export const RESERVED = "res"
 
 export const defaultValues = {
     "Array": [],
@@ -49,6 +50,7 @@ export const validate = (doc, template) => {
     let validatedDoc = {};
     validatedDoc['id'] = doc['id'];
     for (let key in template) {
+        if (key === "___name") continue;
         if (doc.hasOwnProperty(key)){
             if (validators[template[key][0]](doc[key])) {
                 validatedDoc[key] = doc[key]
@@ -70,6 +72,7 @@ export const validate = (doc, template) => {
 export const isValid = (doc, template) => {
     let bool = true;
     for (let key in template) {
+        if (key === "___name") continue;
         if (doc.hasOwnProperty(key)){
             if (!validators[template[key][0]](doc[key])) {
                 bool = false;

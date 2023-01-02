@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../firebase/credentials"
 import { useUserStore } from './stores/user.js'
 import { mapStores } from 'pinia'
+import { Users } from '../firebase/schemas/User'
 
 export default {
 	data() {
@@ -14,15 +15,11 @@ export default {
 		...mapStores(useUserStore)
 	},
 	beforeCreate() {
-		onAuthStateChanged(auth, (user) => {
-			const store = this.userStore;
+		onAuthStateChanged(auth, async (user) => {
 			if (user) {
-				store.setUser(user);
-				store.isAuthenticated = true;
-			} else {
-				store.setUser({});
-				store.isAuthenticated = false;
+				this.userStore.setUser(await Users.getOne(user.uid));
 			}
+			else this.userStore.setUser({});
 		});
 	}
 }

@@ -1,4 +1,4 @@
-import { collection, query, addDoc, getDoc, getDocs, doc, onSnapshot } from "firebase/firestore";
+import { collection, query, addDoc, getDoc, getDocs, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from '../credentials'
 import { fDocument }  from "./fDocument"
 import { fList } from "./fList"
@@ -46,9 +46,9 @@ export class fCollection {
         return lofl
     }
 
-    async doc(doc) {
-        if(isValid(doc, this.template)) {
-            let validatedDoc = validateObj(doc, this.template);
+    async doc(docc) {
+        if(isValid(docc, this.template)) {
+            let validatedDoc = validateObj(docc, this.template);
             const docRef = await addDoc(collection(db, this.collectionName), validatedDoc);
             validatedDoc["id"] = docRef.id
             return new fDocument(validatedDoc, this.template)
@@ -84,3 +84,21 @@ export class fCollection {
     }
 }
 
+export class fUser extends fCollection {
+    constructor(template) {
+        template["___name"] = "Users";
+        super(template);
+    }
+
+    async _docwithid(docc, id) {
+        if(isValid(docc, this.template)) {
+            let validatedDoc = validateObj(docc, this.template);
+            const docRef = await setDoc(doc(db, this.collectionName, id), validatedDoc);
+            validatedDoc["id"] = id
+            return new fDocument(validatedDoc, this.template)
+        } else {
+            console.log('The data passed in does not match the Type you declared!')
+            return fDocument.dummy(this.template)
+        }
+    }
+}
