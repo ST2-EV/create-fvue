@@ -1,4 +1,4 @@
-# create-fvue
+# create-fVue
 
 A fullstack web framework for winning hackathons
 
