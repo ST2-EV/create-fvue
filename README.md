@@ -1,7 +1,5 @@
 # create-fvue
 
-git clone this repository and cd into the folder. then,
-```
-node outfile.cjs <path-to-dest-folder>/<project-name>
-```
-Phew! that was easy, wasn't it?
+A fullstack web framework for winning hackathons
+
+### [[docs]](https://st2ev.notion.site/fVue-7cc9aad39b0a4824914743d1aa0a9fda)
